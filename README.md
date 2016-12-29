@@ -41,17 +41,17 @@ true or false. If true, this .hta page is the first and root page of the applica
 page and will have access to shared data differently than a root page. The last is the name of the shared data folder. This is
 usually "data". For more information see the Documentation. [link?]
 
-Scoot App
+Scoot Application
 ---------
-App-Specific data is stored in JSON format inside the data folders _pages_shared.json file. This data is availabe to 
+Application-Specific data is stored in JSON format inside the data folders _pages_shared.json file. This data is availabe to 
 (and updateable by) any page in the Scoot application. Here is one example of application data stored in _pages_shared.
 
 	{
 	  "_pages_shared": {
-		"myapplication": {
+		"myapplicationtodosomethingiwant": {
 		  "appid": "CE75CCF4-32D0-4723-8E98-9879CF9FF984",
-		  "appname": "Name",
-		  "appconn": "DRIVER=;INITIALCATALOG=;USER=;PWD=;",
+		  "appname": "Name that does what I want",
+		  "appconn": "DRIVER=[somedriver];INITIALCATALOG=[fillthisin];USER=[etc];PWD=[etc];",
 		},
 		"exportfolder": "C:\\Users\\[someusername]\\export",
 		"linkeduser": null,
@@ -59,7 +59,7 @@ App-Specific data is stored in JSON format inside the data folders _pages_shared
 	  }
 	}
 	
-Scoot Page
+Scoot Page(s)
 ----------
 
 Page-Specific data is stored in JSON format inside the [pagename].json file. For instance if your page includes a drop down for detail types. You could create 
