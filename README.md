@@ -46,7 +46,7 @@ Using Scoot in a page is simple.
     
 	</script>
 
-Here objPage is declared a new Scoot.page(name, isroot, data). The first parameter is the *name* of the .hta file itself. The second parameter is
+Here objPage is declared a new Scoot.page(**name**, **isroot**, **data**). The first parameter is the *name* of the .hta file itself. The second parameter is
 true or false. If true, this .hta page is the first and root page of the application. If false, then the .hta page is a child
 page and will have access to shared data differently than a root page. The last is the name of the shared data folder. This is
 usually "data". For more information see the Documentation. [link?]
