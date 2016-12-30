@@ -92,135 +92,113 @@ A Basic Scoot Page
 
 A Basic Scoot page includes Bootstrap, Knock Out and Scoot. This is a non working example. do not copy and paste. it will be fixed later.
 
-	<html> 
-	<head> 
-	<title>Scoot Sample</title> 
+```html
+<html> 
+<head> 
+<title>Scoot Sample</title> 
 
-		<meta http-equiv="x-ua-compatible" content="ie=9">
- 
-	<HTA:APPLICATION  
-		ID="objHTASample" 
-		APPLICATIONNAME="ScootSample" 
-		SCROLL="yes" 
-		SINGLEINSTANCE="yes" 
-		WINDOWSTATE="maximize" 
-		NAVIGABLE="yes"
-		ICON="sample.ico"
-	> 
-	</head> 
+	<meta http-equiv="x-ua-compatible" content="ie=9">
 
-		<link rel="stylesheet" href="/Scripts/bootstrap-3.3.6-dist/css/bootstrap.min.css" />    
+<HTA:APPLICATION  
+	ID="objHTASample" 
+	APPLICATIONNAME="ScootSample" 
+	SCROLL="yes" 
+	SINGLEINSTANCE="yes" 
+	WINDOWSTATE="maximize" 
+	NAVIGABLE="yes"
+	ICON="sample.ico"
+> 
+</head> 
 
-		<script type="text/javascript" src="/Scripts/jQuery/jquery-1.12.3.min.js"></script>
-		<script type="text/javascript" src="/Scripts/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/Scripts/ko/knockout-3.4.0.js"></script>
-		<script type="text/javascript" src="/Scripts/Scoot/0.1.9/scoot-0.1.9.js"></script>
+	<link rel="stylesheet" href="/Scripts/bootstrap-3.3.6-dist/css/bootstrap.min.css" />    
 
-	<script language="javascript">
+	<script type="text/javascript" src="/Scripts/jQuery/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="/Scripts/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/Scripts/ko/knockout-3.4.0.js"></script>
+	<script type="text/javascript" src="/Scripts/Scoot/0.1.9/scoot-0.1.9.js"></script>
 
-		var objPage = new Scoot.page("ScootSample", true, "data");
+```
+```javascript
+<script language="javascript">
 
-		objPage.include('/header/header1.html', '#header');
-		objPage.include('/footer/footer1.html', '#footer');
-    
-	</script>
-        
-	<body style="padding-top:70px;"> 
+	var objPage = new Scoot.page("ScootSample", true, "data");
 
-		<div id="header"></div>
-    
-		<div class="container" id="AppPage">
+	objPage.include('/header/header1.html', '#header');
+	objPage.include('/footer/footer1.html', '#footer');
 
-			<div class="row">
-				<h3>Scoot Sample</h3>
-				<hr />
-			</div>
+</script>
+```
+```html
+<body style="padding-top:70px;"> 
 
-			<div class="row">
+	<div id="header"></div>
 
-				
-			</div>
+	<div class="container" id="AppPage">
 
-			<div id="footer"></div>
-        
+		<div class="row">
+			<h3>Scoot Sample</h3>
+			<hr />
 		</div>
-	
-	<script type="text/javascript" language="javascript" >
-            
-		var ViewModel = function (oPage) {
-			var self = this;
 
-			self.page = oPage;
-			self.datalocation = oPage.spec + "\\data\\";
-			self.ScootVersion = Scoot.versioninfo().number;
-        
-			self.dataconn = self.page.shared("myapplication").dataconn ;
-			self.appname = self.page.shared("myapplication").name;
-
-			self.users = ko.observableArray([]);
-			self.selectedUser = ko.observable();
-
-			self.userfilter = ko.observable();
-        
-			self.Init = function () {
-				self.LoadUsers();
-			}
-
-			self.LoadUsers = function () {
-
-				self.users.removeAll();
-
-            
-				var sql = "SELECT " + listby + " as [ListItem], u.* FROM aspnet_users u "
-					+ " JOIN aspnet_Membership m on m.UserId = u.UserId "
-					+ "WHERE "
-					+ " u.ApplicationId = '" + self.application + "' "
-
-				if (self.userfilter() != undefined) {
-					sql += " AND " + listby + " LIKE '%" + self.userfilter() + "%' ";
-				}
-
-				sql += " ORDER BY " + listby;
-            
-				var _users = Scoot.data("ADO", self.connection);
-
-				var selected = self.page.shared("linkeduser")
-				if (selected != null) {
-
-					var selector = {
-						"key": "UserId",
-						"value": selected,
-						"item": {}
-					}
-
-					_users.open(sql, self.users, selector);
-                                
-					self.selectedUser(selector.item);
-
-					self.page.shared("linkeduser", null);
+		<div class="row">
 
 
-				} else {
-					_users.open(sql, self.users);
-				}
-    
-			}             
+		</div>
 
-      
+		<div id="footer"></div>
+
+	</div>
+```
+```javascript	
+<script type="text/javascript" language="javascript" >
+
+	var ViewModel = function (oPage) {
+		var self = this;
+
+		self.page = oPage;
+		self.datalocation = oPage.spec + "\\data\\";
+		self.ScootVersion = Scoot.versioninfo().number;
+
+		self.appconn = self.page.shared("myapplication").appconn;
+		self.appname = self.page.shared("myapplication").appname;
+
+		self.users = ko.observableArray([]);
+		self.selectedUser = ko.observable();
+
+		self.Init = function () {
+			self.LoadUsers();
 		}
 
-		function BindToPage() {
-			var vm = new ViewModel(objPage);
-			ko.applyBindings(vm, document.getElementById("AppPage"));
-			vm.Init();
-		}
-    
-		$(document).ready(function () {
-			// do not bind until all includes are loaded.   
-			objPage.load(BindToPage);
-		});
-    
-	</script>
+		self.LoadUsers = function () {
 
-	</body> 
-	</html> 
+			self.users.removeAll();
+
+			var sql = "SELECT * FROM aspnet_users u "
+				+ " JOIN aspnet_Membership m on m.UserId = u.UserId "
+				+ "WHERE u.ApplicationId = '" + self.application + "' "
+
+			var _users = Scoot.data("ADO", self.appconn);
+			_users.open(sql, self.users);
+
+		}             
+
+
+	}
+
+	function BindToPage() {
+		var vm = new ViewModel(objPage);
+		ko.applyBindings(vm, document.getElementById("AppPage"));
+		vm.Init();
+	}
+
+	$(document).ready(function () {
+		// do not bind until all includes are loaded.   
+		objPage.load(BindToPage);
+	});
+
+</script>
+```
+```html
+</body> 
+</html>
+```
