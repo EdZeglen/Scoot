@@ -253,6 +253,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                         obj["spec"] = strFileSpec;
                         obj["foldername"] = folder.name;
                         obj["mdate"] = new Date(filex.datelastmodified);
+                        obj["size"] = filex.size;
 
                         into.push(obj);
                     }
