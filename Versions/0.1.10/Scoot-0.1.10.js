@@ -450,14 +450,24 @@ OTHER DEALINGS IN THE SOFTWARE.
                 return (field);
             }
 
-            this.save = function (sql, astype, filespec) {
+            this.save = function (sql, astype, filespec, timeout) {
+
+                var deftimeout = 30;
+                if (arguments.length == 4)
+                    deftimeout = timeout;
+
+                var adoConn = new ActiveXObject("ADODB.Connection");
+                adoConn.CommandTimeout = deftimeout;
+                adoConn.Open(this.conn);
+
                 var adoRS = new ActiveXObject("ADODB.RecordSet");
-                adoRS.Open(sql, this.conn);
+                adoRS.Open(sql, adoConn);
 
                 if (adoRS.EOF != true) {
                     var text = '"' + adoRS.GetString(2, -1, '","', '"\r\n"', "&nbsp;");
-                    //Scoot.file().save("c:\\users\\ed\\testingcsv.csv", text);
-                    Scoot.file().save(filespec, text);
+                    // remove the last " which is on a line by iteself for some reason.
+                    var final = text.substring(0, text.length - 1);
+                    Scoot.file().save(filespec, final);
                 }
 
                 adoRS.Close;
