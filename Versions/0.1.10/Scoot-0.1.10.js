@@ -407,7 +407,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                 else
                     var m = new Date();
 
-                var dateString = m.getMonth() + "-" + m.getDate() + "-" + m.getFullYear();
+                var dateString = _Scoot.pad(m.getMonth() + 1, '0', 2) + "-" + _Scoot.pad(m.getDate(), '0', 2) + "-" + m.getFullYear();
                 return (dateString);
 
             }
